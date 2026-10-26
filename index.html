@@ -24,9 +24,23 @@ html{background:var(--green)}
 body{background:var(--green);color:var(--navy);font-family:var(--display);font-size:16px;line-height:1.75;overflow-x:hidden;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
-  background:radial-gradient(90% 55% at 50% 0%,rgba(255,255,255,.28),transparent 70%),radial-gradient(70% 50% at 100% 100%,rgba(27,45,78,.18),transparent 70%)}
+  background:radial-gradient(90% 50% at 50% 0%,rgba(255,255,255,.30),transparent 70%),radial-gradient(80% 60% at 50% 110%,rgba(27,45,78,.30),transparent 70%),
+  linear-gradient(115deg,transparent 30%,rgba(255,255,255,.10) 45%,transparent 60%)}
+/* textured ground: deep green gradient + fine grain + embossed tire tracks */
+.bg{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .15 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px),
+    repeating-linear-gradient(-45deg,rgba(20,35,5,.05) 0 2px,transparent 2px 7px),
+    linear-gradient(165deg,#a2c232 0%,#8fb025 38%,#7f9e1f 72%,#6c8817 100%)}
+.tracks{position:absolute;left:50%;top:44%;width:240vmax;display:flex;flex-direction:column;gap:clamp(120px,30vw,200px);
+  transform:translate(-50%,-50%) rotate(-24deg);
+  -webkit-mask:linear-gradient(90deg,transparent 22%,#000 40%,#000 60%,transparent 78%);mask:linear-gradient(90deg,transparent 22%,#000 40%,#000 60%,transparent 78%)}
+.trk{height:clamp(70px,18vw,104px);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 96' preserveAspectRatio='none'%3E%3Cg fill='rgba(255,255,255,.20)' transform='translate(-1,-1)'%3E%3Cpath d='M2 4h13l14 36H16z'/%3E%3Cpath d='M2 92h13l14-36H16z'/%3E%3Crect x='13' y='44' width='13' height='8' rx='1'/%3E%3C/g%3E%3Cg fill='rgba(28,44,6,.26)'%3E%3Cpath d='M2 4h13l14 36H16z'/%3E%3Cpath d='M2 92h13l14-36H16z'/%3E%3Crect x='13' y='44' width='13' height='8' rx='1'/%3E%3C/g%3E%3C/svg%3E") repeat-x left center/auto 100%}
+.trk.b{transform:translateX(18px)}
 .watermark{position:fixed;z-index:-1;width:min(120vw,720px);aspect-ratio:1;left:50%;top:52%;transform:translate(-30%,-50%) rotate(-8deg);
-  background:var(--green-lo);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;opacity:.55;pointer-events:none}
+  background:var(--green-lo);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;opacity:.42;pointer-events:none}
 .wrap{max-width:500px;margin:0 auto;padding-block:16px 48px;display:flex;flex-direction:column;gap:30px;position:relative}
 .logo{background:currentColor;-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
 
@@ -179,6 +193,7 @@ footer span{font:600 11px var(--display);letter-spacing:.24em;opacity:.7;directi
   <div id="wipe"></div>
 </div>
 
+<div class="bg" aria-hidden="true"><div class="tracks"><div class="trk"></div><div class="trk b"></div></div></div>
 <div class="watermark" aria-hidden="true"></div>
 <div class="wrap" dir="rtl">
   <div class="top">
