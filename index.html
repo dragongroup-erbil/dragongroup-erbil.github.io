@@ -124,6 +124,9 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--white);outline-offs
 .hero-logo .logo{position:absolute;inset:0;color:var(--navy);animation:float 5s ease-in-out infinite}
 @keyframes float{50%{transform:translateY(-6px) rotate(-1.5deg)}}
 h1{margin:4px 0 0;font:900 clamp(42px,13vw,62px)/1.1 var(--display);color:var(--navy);text-wrap:balance}
+.motto{display:inline-flex;align-items:center;gap:10px;margin:10px 0 4px;padding:8px 18px;border-radius:999px;
+  background:var(--navy);color:#fff;font:700 clamp(15px,4.4vw,18px)/1.5 var(--display);box-shadow:0 10px 24px -12px rgba(15,28,51,.8)}
+.motto svg{width:22px;height:22px;flex:none;color:var(--green-hi)}
 .sub{margin:0;font-weight:600;font-size:16px;color:var(--navy);opacity:.85}
 .pills{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}
 .pill{font:600 13px var(--display);background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.7);padding:3px 12px;border-radius:999px}
@@ -226,6 +229,7 @@ footer span{font:600 11px var(--display);letter-spacing:.24em;opacity:.7;directi
   <header class="hero">
     <div class="hero-logo"><div class="rays"></div><div class="halo"></div><svg class="drift" viewBox="0 0 400 400" aria-hidden="true"><g fill="none" stroke-linecap="butt"><path d="M54.5 284.0A168 168 0 1 1 308.0 328.7" stroke="rgba(255,255,255,.35)" stroke-width="16" stroke-dasharray="3 4" transform="translate(-1 -1)"/><path d="M54.5 284.0A168 168 0 1 1 308.0 328.7" stroke="rgba(27,45,78,.30)" stroke-width="16" stroke-dasharray="3 4"/><path d="M10.9 233.3A192 192 0 1 1 380.4 265.7" stroke="rgba(255,255,255,.30)" stroke-width="14" stroke-dasharray="3 4" transform="translate(-1 -1)"/><path d="M10.9 233.3A192 192 0 1 1 380.4 265.7" stroke="rgba(27,45,78,.24)" stroke-width="14" stroke-dasharray="3 4"/></g></svg><div class="logo" role="img" aria-label="Dragon Group"></div></div>
     <h1>دراگۆن گرووپ</h1>
+    <p class="motto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2.5 4 5.5v6c0 5 3.4 8.8 8 10 4.6-1.2 8-5 8-10v-6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span data-ku="سەلامەتی ئێوە ئامانجی ئێمەیە" data-ar="سلامتكم هدفنا">سەلامەتی ئێوە ئامانجی ئێمەیە</span></p>
     <p class="sub" data-ku="تایە و پاتری · هەولێر" data-ar="إطارات وباتري · أربيل">تایە و پاتری · هەولێر</p>
     <div class="pills">
       <span class="pill" data-ku="تایەی نوێ" data-ar="إطارات جديدة">تایەی نوێ</span>
