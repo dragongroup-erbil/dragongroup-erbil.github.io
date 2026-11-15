@@ -175,6 +175,14 @@ h1{margin:4px 0 0;font:900 clamp(42px,13vw,62px)/1.1 var(--display);color:var(--
 .addr{font:800 18px/1.5 var(--display)}
 .addr small{display:block;font:500 14px var(--display);color:var(--muted)}
 .go-map{background:var(--navy);color:#fff}
+.nav-label{font:600 13px var(--display);color:var(--muted);margin:-2px 0 -4px}
+.navs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.nav{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:78px;padding:10px 6px;border-radius:14px;
+  text-decoration:none;font:700 13.5px/1.2 var(--display);color:var(--navy);background:#f1f5e4;border:1.5px solid rgba(27,45,78,.12);transition:transform .12s}
+.nav:active{transform:scale(.96)}
+.nav .ni{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff}
+.nav .ni svg{width:20px;height:20px}
+.nav.g .ni{background:#1b2d4e}.nav.a .ni{background:#1b2d4e}.nav.w .ni{background:#1b2d4e}
 .social{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;padding:14px 16px;border-radius:22px;background:var(--navy-ink)}
 .social .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--green)}
 .social .ic svg{width:24px;height:24px;color:var(--navy-ink)}
@@ -258,7 +266,12 @@ footer span{font:600 11px var(--display);letter-spacing:.24em;opacity:.7;directi
       </div>
       <div class="place-body">
         <div class="addr"><span data-ku="هەولێر - شەقامی مەخموور" data-ar="أربيل - طريق مخمور">هەولێر - شەقامی مەخموور</span><small data-ku="پیشەسازی باشوور" data-ar="الصناعة الجنوبية">پیشەسازی باشوور</small></div>
-        <a class="act go-map" href="https://maps.app.goo.gl/tWiudFW99B2SpDGu8" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 2.3 2.8 9.6c-.8.3-.8 1.5.1 1.7l7.4 2.4 2.4 7.4c.3.9 1.4.9 1.7.1l7.3-18.9z"/></svg><span data-ku="ڕێنیشاندەر لە گووگڵ ماپ" data-ar="الاتجاهات في خرائط جوجل">ڕێنیشاندەر لە گووگڵ ماپ</span></a>
+        <p class="nav-label" data-ku="بە کام ئەپ ڕێگاکە دەدۆزیتەوە؟" data-ar="اختر تطبيق الخرائط">بە کام ئەپ ڕێگاکە دەدۆزیتەوە؟</p>
+        <div class="navs">
+          <a class="nav g" href="https://maps.app.goo.gl/tWiudFW99B2SpDGu8" target="_blank" rel="noopener"><span class="ni"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>Google Maps</a>
+          <a class="nav a" href="https://maps.apple.com/?ll=36.1531625,43.9855469&amp;q=Dragon%20Group&amp;dirflg=d" target="_blank" rel="noopener"><span class="ni"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 2.3 2.8 9.6c-.8.3-.8 1.5.1 1.7l7.4 2.4 2.4 7.4c.3.9 1.4.9 1.7.1l7.3-18.9z"/></svg></span>Apple Maps</a>
+          <a class="nav w" href="https://waze.com/ul?ll=36.1531625,43.9855469&amp;navigate=yes" target="_blank" rel="noopener"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 16.5C3.6 15.6 3 14 3 12.5 3 7.8 7 4 12 4s9 3.6 9 8-3.6 7-8 7H9.5"/><circle cx="7.5" cy="18.5" r="1.6" fill="currentColor"/><circle cx="15.5" cy="18.5" r="1.6" fill="currentColor"/><circle cx="9.5" cy="10.5" r=".9" fill="currentColor"/><circle cx="14.5" cy="10.5" r=".9" fill="currentColor"/><path d="M9.5 13.5c1.4 1.2 3.6 1.2 5 0"/></svg></span>Waze</a>
+        </div>
       </div>
     </div>
     <a class="social" href="https://www.tiktok.com/@dragon.tires" target="_blank" rel="noopener">
