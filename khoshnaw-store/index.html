@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Khoshnaw Store — Walkthrough & Renders</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#8e2b24;--brass:#b8913c;--ink:#2a211b;--bg:#faf6ef}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+.band{height:14px;background:repeating-linear-gradient(45deg,#151515 0 3px,#fff 3px 7px)}
+header{padding:28px 20px 10px;max-width:1100px;margin:auto}
+h1{margin:0;font-size:clamp(28px,6vw,48px);font-weight:800;letter-spacing:.5px}
+.sub{color:var(--red);font-weight:600;letter-spacing:1.5px;font-size:13px;margin-top:6px;text-transform:uppercase}
+.by{font-size:13px;color:#5a4a3e;margin-top:10px}
+main{max-width:1100px;margin:auto;padding:10px 20px 40px}
+h2{font-size:18px;margin:28px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--brass)}
+video{width:100%;border-radius:6px;border:4px solid var(--brass);background:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+figure{margin:0;background:#fff;border:1px solid #e4d9c6;border-radius:6px;overflow:hidden;cursor:zoom-in}
+figure img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+figcaption{padding:8px 10px;font-size:13px;font-weight:600}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:9}
+#lb img{max-width:96vw;max-height:92vh} #lb.on{display:flex}
+footer{text-align:center;font-size:12px;color:#7a6a5c;padding:20px}
+</style></head><body><div class="band"></div>
+<header><h1>KHOSHNAW STORE</h1><div class="sub">Kurdish clothing shop · Interior design</div>
+<div class="by">Prepared by <b>Muhammad Mudhafer Ibrahim</b> · Supervised by Interior Design Staff</div></header>
+<main><h2>Walkthrough</h2><video src="walkthrough.mp4" controls playsinline muted preload="metadata" poster="img/street-day.jpg"></video>
+<h2>Renders</h2><div class="grid"><figure><img src="img/street-day.jpg" alt="Street view" loading="lazy"><figcaption>Street view</figcaption></figure>
+<figure><img src="img/street-dusk.jpg" alt="Street view at dusk" loading="lazy"><figcaption>Street view at dusk</figcaption></figure>
+<figure><img src="img/facade.jpg" alt="Front façade" loading="lazy"><figcaption>Front façade</figcaption></figure>
+<figure><img src="img/portal.jpg" alt="Entrance portal" loading="lazy"><figcaption>Entrance portal</figcaption></figure>
+<figure><img src="img/interior.jpg" alt="Main interior view" loading="lazy"><figcaption>Main interior view</figcaption></figure>
+<figure><img src="img/counter-diwan.jpg" alt="Counter, diwan & chiq screen" loading="lazy"><figcaption>Counter, diwan & chiq screen</figcaption></figure>
+<figure><img src="img/klash.jpg" alt="Klash niches" loading="lazy"><figcaption>Klash niches</figcaption></figure>
+<figure><img src="img/entrance.jpg" alt="Entrance, looking in" loading="lazy"><figcaption>Entrance, looking in</figcaption></figure>
+<figure><img src="img/counter-iwan.jpg" alt="Counter & iwan niche" loading="lazy"><figcaption>Counter & iwan niche</figcaption></figure>
+<figure><img src="img/plinth.jpg" alt="Display plinth" loading="lazy"><figcaption>Display plinth</figcaption></figure>
+<figure><img src="img/diwan.jpg" alt="Diwan, tea corner" loading="lazy"><figcaption>Diwan, tea corner</figcaption></figure>
+<figure><img src="img/mannequin.jpg" alt="Kurdish suit" loading="lazy"><figcaption>Kurdish suit</figcaption></figure>
+<figure><img src="img/chiq.jpg" alt="Chiq screen" loading="lazy"><figcaption>Chiq screen</figcaption></figure>
+<figure><img src="img/lantern.jpg" alt="Brass lantern" loading="lazy"><figcaption>Brass lantern</figcaption></figure>
+<figure><img src="img/window.jpg" alt="Window detail" loading="lazy"><figcaption>Window detail</figcaption></figure></div></main>
+<footer>Concept: the Kurdish house — light, screen, house, loom</footer><div class="band"></div>
+<div id="lb"><img alt=""></div>
+<script>
+const lb=document.getElementById('lb'),li=lb.querySelector('img');
+document.querySelectorAll('figure img').forEach(i=>i.addEventListener('click',()=>{li.src=i.src;lb.classList.add('on')}));
+lb.addEventListener('click',()=>lb.classList.remove('on'));
+</script></body></html>
