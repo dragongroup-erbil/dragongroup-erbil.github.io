@@ -122,7 +122,7 @@ function summaryText(){
   const t=TASKS.find(x=>x.id===sel);
   return ["Project Evaluation",
    "Reviewer: "+($("name").value.trim()||"—"),
-   "Task: "+(t.co?t.co+" — ":"")+t.pr+" ("+t.ow+")",
+   "Task: "+(TASKS.indexOf(t)+1)+". "+(t.co?t.co+" — ":"")+t.pr+" ("+t.ow+")",
    ...CRITS.map(([k,l])=>l+": "+scores[k]+"/5"),
    "Strengths: "+($("good").value.trim()||"—"),
    "To improve: "+($("improve").value.trim()||"—")].join("\n");

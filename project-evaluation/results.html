@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Evaluation Results | Dragon Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#1d2321;--mute:#6b736f;--line:#e4e0d6;--acc:#1f6f5c;--acc2:#e9f3ef;--warn:#b5532f;--star:#e0a526}
+@media (prefers-color-scheme:dark){:root{--bg:#141716;--card:#1d2120;--ink:#ecefed;--mute:#9aa39f;--line:#2e3432;--acc:#5fc2a4;--acc2:#1e2e29;--warn:#e88a66}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+.hero{background:var(--acc);color:#fff;border-radius:16px;padding:22px 18px;margin:6px 0 18px}.hero h1{font-size:2rem;margin:0 0 6px}.hero .intro{margin:0;opacity:.95;font-size:.98rem}.ttl{font-size:1.25rem;margin:0 0 2px}@media (prefers-color-scheme:dark){.hero{color:#0f1a17}}
+.sub{color:var(--mute);margin:0 0 18px;font-size:.95rem}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px;border-radius:10px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.label{font-weight:700;margin-bottom:8px;display:block}
+.task{display:block;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.task input{display:none}
+.task.on{border-color:var(--acc);background:var(--acc2)}
+.task b{display:block}.task b,.task small{unicode-bidi:plaintext}
+.task small{color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:.78rem;background:var(--bg);border-radius:20px;padding:2px 9px;color:var(--mute)}
+.crit{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.crit:last-child{border:0}
+.stars{display:flex;gap:2px;direction:ltr}
+.stars button{background:none;border:0;font-size:1.7rem;line-height:1;color:var(--line);cursor:pointer;padding:2px}
+.stars button.on{color:var(--star)}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;background:var(--bg);color:var(--ink);resize:vertical}
+.btn{width:100%;background:var(--acc);color:#fff;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer}
+.btn.sec{background:var(--card);color:var(--acc);border:1.5px solid var(--acc);margin-top:8px}
+.btn:disabled{opacity:.5}
+.msg{padding:12px;border-radius:10px;margin-top:12px;font-size:.95rem}
+.msg.ok{background:var(--acc2);color:var(--acc)}
+.msg.err{background:#fbeee8;color:var(--warn)}
+@media (prefers-color-scheme:dark){.msg.err{background:#3a241b}}
+.res h3{margin:0 0 4px;font-size:1.05rem}
+.bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin:3px 0 8px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.row{display:flex;justify-content:space-between;font-size:.9rem}
+.cm{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px;font-size:.9rem}
+.cm small{color:var(--mute)}
+.hide{display:none}
+a.wa{display:block;text-align:center;text-decoration:none}
+</style>
+<style>
+.big{font-size:2rem;font-weight:700;color:var(--acc);line-height:1.1}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpis .card{margin:0}
+.kpis small{color:var(--mute)}
+.rank{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.rank:last-child{border:0}
+input[type=file]{width:100%;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="hero">
+    <h1>Evaluation Results</h1>
+    <p class="intro">Paste the evaluation messages you received on WhatsApp (one or many at once), or upload an exported WhatsApp chat. Averages are calculated automatically.</p>
+  </div>
+</header>
+
+<div class="card">
+  <span class="label">Paste messages here</span>
+  <textarea id="box" rows="7" placeholder="Paste all evaluation messages…"></textarea>
+  <span class="label" style="margin-top:12px">…or upload a WhatsApp chat export (.txt)</span>
+  <input type="file" id="file" accept=".txt,text/plain">
+  <button class="btn" id="calc" style="margin-top:12px">Calculate results</button>
+  <button class="btn sec" id="clear">Clear</button>
+</div>
+
+<div id="results"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const TASKS=[
+ {n:1,co:"Aras",pr:"Foundation Filling",ow:"Mahmood"},
+ {n:2,co:"Ayinda",pr:"Building a Two-Story House",ow:"Amir"},
+ {n:3,co:"Aso",pr:"Moving Warehouse Goods",ow:"Ahmed Mahmood"},
+ {n:4,co:"Aram",pr:"Building a Two-Story House",ow:"Sarwar"},
+ {n:5,co:"",pr:"Foundation Filling",ow:"Saman"}
+];
+const CRITS=[["budget","Budget adherence"],["time","Timeliness"],["quality","Quality of work"],["overall","Overall rating"]];
+const $=id=>document.getElementById(id);
+const KEY="pe-results-text";
+function esc(s){const d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML}
+function rx(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
+
+function taskFromLine(line){
+  const m=line.match(/Task:\s*(\d+)\./); if(m)return +m[1];
+  // older messages without a number: match by owner in brackets
+  const o=line.match(/\(([^)]+)\)\s*$/); if(o){const t=TASKS.find(t=>t.ow===o[1].trim()); if(t)return t.n;}
+  return null;
+}
+function parse(text){
+  text=text.replace(/\r/g,"").replace(/\u200e|\u200f/g,"");
+  const parts=text.split(/Project Evaluation/).slice(1);
+  const seen=new Set(), out=[];
+  parts.forEach(p=>{
+    const lines=p.split("\n");
+    const get=lab=>{const l=lines.find(x=>x.indexOf(lab+":")>=0); return l?l.slice(l.indexOf(lab+":")+lab.length+1).trim():""};
+    const taskLine=lines.find(x=>/Task:/.test(x))||"";
+    const task=taskFromLine(taskLine);
+    if(!task)return;
+    const sc={}; let ok=true;
+    CRITS.forEach(([k,l])=>{const m=p.match(new RegExp(rx(l)+":\\s*([1-5])\\s*/\\s*5")); if(m)sc[k]=+m[1]; else ok=false;});
+    if(!ok)return;
+    const r={task,reviewer:get("Reviewer"),scores:sc,good:get("Strengths"),improve:get("To improve")};
+    const sig=JSON.stringify(r); if(seen.has(sig))return; seen.add(sig);
+    out.push(r);
+  });
+  return out;
+}
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+const clean=v=>(v&&v!=="—")?v:"";
+
+function render(list){
+  if(!list.length){$("results").innerHTML='<div class="card">No evaluations found. Make sure you pasted the full messages starting with "Project Evaluation".</div>';return;}
+  const all=list.map(r=>r.scores.overall);
+  const reviewers=new Set(list.map(r=>clean(r.reviewer)||Math.random())).size;
+  let h=`<div class="kpis">
+   <div class="card"><div class="big">${list.length}</div><small>Evaluations</small></div>
+   <div class="card"><div class="big">${avg(all).toFixed(1)}<span style="font-size:1rem"> / 5</span></div><small>Average overall rating</small></div></div>`;
+  const stats=TASKS.map(t=>{const L=list.filter(r=>r.task===t.n);return {t,L,ov:avg(L.map(r=>r.scores.overall))}});
+  const ranked=stats.filter(s=>s.L.length).sort((a,b)=>b.ov-a.ov);
+  h+=`<div class="card"><span class="label">Ranking (overall)</span>${ranked.map((s,i)=>`<div class="rank"><span>${i+1}. ${s.t.co?esc(s.t.co)+" — ":""}${esc(s.t.pr)}</span><b>${s.ov.toFixed(1)}</b></div>`).join("")}</div>`;
+  h+=`<div class="card"><span class="label">All tasks — average per criterion</span>`+CRITS.map(([k,l])=>{const a=avg(list.map(r=>r.scores[k]));return `<div class="row"><span>${l}</span><b>${a.toFixed(1)} / 5</b></div><div class="bar"><i style="width:${a/5*100}%"></i></div>`}).join("")+`</div>`;
+  stats.forEach(({t,L})=>{
+    h+=`<div class="card res"><h3>${t.n}. ${t.co?esc(t.co)+" — ":""}${esc(t.pr)}</h3><small style="color:var(--mute)">${esc(t.ow)} · ${L.length} evaluation${L.length===1?"":"s"}</small>`;
+    if(L.length){
+      CRITS.forEach(([k,l])=>{const a=avg(L.map(r=>r.scores[k]));h+=`<div class="row"><span>${l}</span><b>${a.toFixed(1)} / 5</b></div><div class="bar"><i style="width:${a/5*100}%"></i></div>`});
+      L.filter(r=>clean(r.good)||clean(r.improve)).forEach(r=>{h+=`<div class="cm"><small>${esc(clean(r.reviewer)||"Anonymous")}</small>${clean(r.good)?`<div>👍 ${esc(r.good)}</div>`:""}${clean(r.improve)?`<div>🔧 ${esc(r.improve)}</div>`:""}</div>`});
+    }
+    h+=`</div>`;
+  });
+  $("results").innerHTML=h;
+}
+function run(){const t=$("box").value;try{localStorage.setItem(KEY,t)}catch(e){} render(parse(t));}
+$("calc").onclick=run;
+$("clear").onclick=()=>{$("box").value="";$("results").innerHTML="";try{localStorage.removeItem(KEY)}catch(e){}};
+$("file").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$("box").value=($("box").value?$("box").value+"\n":"")+r.result;run();};r.readAsText(f);};
+try{const t=localStorage.getItem(KEY);if(t){$("box").value=t;render(parse(t));}}catch(e){}
+})();
+</script>
+</body>
+</html>
