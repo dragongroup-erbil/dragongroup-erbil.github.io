@@ -68,7 +68,7 @@ input[type=file]{width:100%;margin-top:8px}
   </div>
 </header>
 
-<div class="card">
+<div class="card" id="pasteCard">
   <span class="label">Paste messages here</span>
   <textarea id="box" rows="7" placeholder="Paste all evaluation messages…"></textarea>
   <span class="label" style="margin-top:12px">…or upload a WhatsApp chat export (.txt)</span>
@@ -93,6 +93,8 @@ const TASKS=[
 const CRITS=[["budget","Budget adherence"],["time","Timeliness"],["quality","Quality of work"],["overall","Overall rating"]];
 const $=id=>document.getElementById(id);
 const KEY="pe-results-text";
+const ENDPOINT=""; // Google Apps Script web app URL
+let RK=""; try{RK=new URLSearchParams(location.search).get("k")||""}catch(e){}
 function esc(s){const d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML}
 function rx(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
 
@@ -149,7 +151,24 @@ function run(){const t=$("box").value;try{localStorage.setItem(KEY,t)}catch(e){}
 $("calc").onclick=run;
 $("clear").onclick=()=>{$("box").value="";$("results").innerHTML="";try{localStorage.removeItem(KEY)}catch(e){}};
 $("file").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$("box").value=($("box").value?$("box").value+"\n":"")+r.result;run();};r.readAsText(f);};
-try{const t=localStorage.getItem(KEY);if(t){$("box").value=t;render(parse(t));}}catch(e){}
+function live(){
+  $("results").innerHTML='<div class="card">Loading results…</div>';
+  fetch(ENDPOINT+"?k="+encodeURIComponent(RK)).then(x=>x.json()).then(d=>{
+    if(!d.ok){$("results").innerHTML='<div class="card">This results link is not valid.</div>';return;}
+    const list=(d.list||[]).map(r=>({task:+r.task,reviewer:r.reviewer,scores:{budget:+r.scores.budget,time:+r.scores.time,quality:+r.scores.quality,overall:+r.scores.overall},good:r.good,improve:r.improve})).filter(r=>r.task&&r.scores.overall);
+    render(list);
+    const top=document.createElement("div");top.className="card";
+    top.innerHTML='<button class="btn" id="rf">Refresh</button>'+(d.sheet?'<a class="btn sec" style="display:block;text-align:center;text-decoration:none" href="'+esc(d.sheet)+'" target="_blank" rel="noopener">Open Google Sheet</a>':"");
+    $("results").prepend(top); $("rf").onclick=live;
+  }).catch(()=>{$("results").innerHTML='<div class="card">Results cannot be loaded right now. Check your connection and try again.</div><button class="btn" id="rf2">Try again</button>';$("rf2").onclick=live;});
+}
+if(ENDPOINT&&RK){
+  $("pasteCard").style.display="none";
+  document.querySelector(".hero .intro").textContent="All submitted evaluations, calculated automatically. Tap Refresh to see new ones.";
+  live();
+}else{
+  try{const t=localStorage.getItem(KEY);if(t){$("box").value=t;render(parse(t));}}catch(e){}
+}
 })();
 </script>
 </body>
