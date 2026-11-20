@@ -99,6 +99,7 @@ const CRITS=[["budget","Budget adherence"],["time","Timeliness"],["quality","Qua
 const ku=n=>String(n);
 const $=id=>document.getElementById(id);
 const ENDPOINT=""; // Google Apps Script web app URL (stores responses)
+const OWNER_EMAIL="muhammadmudhaferibrahim@gmail.com"; // responses are emailed here (FormSubmit)
 const OWNER_WHATSAPP="9647824965363";
 let sel=null, scores={};
 
@@ -140,12 +141,23 @@ function sendBox(){
 $("send").onclick=async()=>{
   if(!sel)return show("Please choose a task first.","err");
   if(CRITS.some(([k])=>!scores[k]))return show("Please rate every criterion.","err");
-  if(!ENDPOINT) return sendBox();
+  if(!ENDPOINT && !OWNER_EMAIL) return sendBox();
   const t=TASKS.find(x=>x.id===sel);
   const payload={task:TASKS.indexOf(t)+1,reviewer:$("name").value.trim(),scores:{...scores},good:$("good").value.trim(),improve:$("improve").value.trim()};
   $("send").disabled=true; $("send").textContent="Sending…";
   try{
-    await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    if(ENDPOINT){
+      await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    }else{
+      const body={_subject:"Project Evaluation — Task "+payload.task+" ("+t.ow+")",_template:"table",
+        "Reviewer":payload.reviewer||"—","Task":payload.task+". "+(t.co?t.co+" — ":"")+t.pr+" ("+t.ow+")"};
+      CRITS.forEach(([k,l])=>body[l]=scores[k]+"/5");
+      body["Strengths"]=payload.good||"—"; body["To improve"]=payload.improve||"—";
+      body["Copy for results page"]=summaryText();
+      const r=await fetch("https://formsubmit.co/ajax/"+OWNER_EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
+      const j=await r.json().catch(()=>({}));
+      if(!r.ok||String(j.success)!=="true") throw new Error(j.message||"failed");
+    }
     show("Thank you! Your evaluation has been submitted ✓<br>You can evaluate another task if you like.","ok");
     document.querySelectorAll(".task").forEach(x=>x.classList.remove("on")); sel=null; scores={}; paintStars();
     $("good").value=""; $("improve").value="";
