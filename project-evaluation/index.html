@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Evaluation | Dragon Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#1d2321;--mute:#6b736f;--line:#e4e0d6;--acc:#1f6f5c;--acc2:#e9f3ef;--warn:#b5532f;--star:#e0a526}
+@media (prefers-color-scheme:dark){:root{--bg:#141716;--card:#1d2120;--ink:#ecefed;--mute:#9aa39f;--line:#2e3432;--acc:#5fc2a4;--acc2:#1e2e29;--warn:#e88a66}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+.hero{background:var(--acc);color:#fff;border-radius:16px;padding:22px 18px;margin:6px 0 18px}.hero h1{font-size:2rem;margin:0 0 6px}.hero .intro{margin:0;opacity:.95;font-size:.98rem}.ttl{font-size:1.25rem;margin:0 0 2px}@media (prefers-color-scheme:dark){.hero{color:#0f1a17}}
+.sub{color:var(--mute);margin:0 0 18px;font-size:.95rem}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px;border-radius:10px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.label{font-weight:700;margin-bottom:8px;display:block}
+.task{display:block;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.task input{display:none}
+.task.on{border-color:var(--acc);background:var(--acc2)}
+.task b{display:block}.task b,.task small{unicode-bidi:plaintext}
+.task small{color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:.78rem;background:var(--bg);border-radius:20px;padding:2px 9px;color:var(--mute)}
+.crit{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.crit:last-child{border:0}
+.stars{display:flex;gap:2px;direction:ltr}
+.stars button{background:none;border:0;font-size:1.7rem;line-height:1;color:var(--line);cursor:pointer;padding:2px}
+.stars button.on{color:var(--star)}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;background:var(--bg);color:var(--ink);resize:vertical}
+.btn{width:100%;background:var(--acc);color:#fff;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer}
+.btn.sec{background:var(--card);color:var(--acc);border:1.5px solid var(--acc);margin-top:8px}
+.btn:disabled{opacity:.5}
+.msg{padding:12px;border-radius:10px;margin-top:12px;font-size:.95rem}
+.msg.ok{background:var(--acc2);color:var(--acc)}
+.msg.err{background:#fbeee8;color:var(--warn)}
+@media (prefers-color-scheme:dark){.msg.err{background:#3a241b}}
+.res h3{margin:0 0 4px;font-size:1.05rem}
+.bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin:3px 0 8px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.row{display:flex;justify-content:space-between;font-size:.9rem}
+.cm{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px;font-size:.9rem}
+.cm small{color:var(--mute)}
+.hide{display:none}
+a.wa{display:block;text-align:center;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="hero">
+    <h1>Welcome!</h1>
+    <p class="intro">Thank you for taking a moment to evaluate this project. Below you'll find the tasks from our Project Management Objectives Tracker, with their budget, actual cost, delay and quality rate. Choose a task, rate it from 1 (poor) to 5 (excellent) on each criterion, and share any comments. Your feedback helps us improve how we plan and deliver our work.</p>
+  </div>
+  <h2 class="ttl">Project Evaluation</h2>
+</header>
+
+
+<section id="vForm">
+  <div class="card">
+    <span class="label">Your name (optional)</span>
+    <input type="text" id="name" placeholder="Reviewer name">
+  </div>
+  <div class="card">
+    <span class="label">Which task are you evaluating?</span>
+    <div id="tasks"></div>
+  </div>
+  <div class="card">
+    <span class="label">Ratings</span>
+    <div id="crits"></div>
+  </div>
+  <div class="card">
+    <span class="label">Strengths</span>
+    <textarea id="good" rows="2"></textarea>
+    <span class="label" style="margin-top:12px">What could be improved?</span>
+    <textarea id="improve" rows="2"></textarea>
+  </div>
+  <button class="btn" id="send">Submit evaluation</button>
+  <div id="out"></div>
+</section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+const TASKS=[
+ {id:"t1",co:"Aras",pr:"Foundation Filling",tk:"Pouring concrete",ow:"Mahmood",bud:5000,act:4800,late:9,q:90,st:"Completed"},
+ {id:"t2",co:"Ayinda",pr:"Building a Two-Story House",tk:"Laying the foundation & clearing the land",ow:"Amir",bud:1200,act:1100,late:0,q:100,st:"Completed"},
+ {id:"t3",co:"Aso",pr:"Moving Warehouse Goods",tk:"Transporting & unloading loads",ow:"Ahmed Mahmood",bud:2500,act:2550,late:28,q:50,st:"Completed"},
+ {id:"t4",co:"Aram",pr:"Building a Two-Story House",tk:"Laying the foundation & clearing the land",ow:"Sarwar",bud:2100,act:2100,late:0,q:25,st:"Completed"},
+ {id:"t5",co:"",pr:"Foundation Filling",tk:"Pouring concrete",ow:"Saman",bud:4000,act:4000,late:0,q:75,st:"Completed"}
+];
+const CRITS=[["budget","Budget adherence"],["time","Timeliness"],["quality","Quality of work"],["overall","Overall rating"]];
+const ku=n=>String(n);
+const $=id=>document.getElementById(id);
+const OWNER_WHATSAPP=""; // e.g. "9647501234567" (country code, no + or spaces)
+let sel=null, scores={};
+
+// tasks
+$("tasks").innerHTML=TASKS.map((t,i)=>`<label class="task" data-id="${t.id}"><input type="radio" name="t">
+ <b>${i+1}. ${t.co?t.co+" — ":""}${t.pr}</b><small>${t.tk} · ${t.ow}</small>
+ <div class="chips"><span class="chip">Budget ${t.bud.toLocaleString("en")}</span><span class="chip">Actual ${t.act.toLocaleString("en")}</span><span class="chip">${t.late} days late</span><span class="chip">Quality ${t.q}%</span><span class="chip">${t.st}</span></div></label>`).join("");
+document.querySelectorAll(".task").forEach(el=>el.onclick=()=>{
+  document.querySelectorAll(".task").forEach(x=>x.classList.remove("on"));
+  el.classList.add("on"); sel=el.dataset.id; loadMine();
+});
+// stars
+$("crits").innerHTML=CRITS.map(([k,l])=>`<div class="crit"><span>${l}</span><div class="stars" data-k="${k}">${[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-label="${n}">★</button>`).join("")}</div></div>`).join("");
+document.querySelectorAll(".stars").forEach(s=>s.onclick=e=>{
+  const n=+e.target.dataset.n; if(!n)return; scores[s.dataset.k]=n; paintStars();
+});
+function paintStars(){document.querySelectorAll(".stars").forEach(s=>{const v=scores[s.dataset.k]||0;s.querySelectorAll("button").forEach(b=>b.classList.toggle("on",+b.dataset.n<=v))})}
+function loadMine(){scores={};paintStars();}
+function show(html,cls){$("out").innerHTML=`<div class="msg ${cls}">${html}</div>`}
+
+function summaryText(){
+  const t=TASKS.find(x=>x.id===sel);
+  return ["Project Evaluation",
+   "Reviewer: "+($("name").value.trim()||"—"),
+   "Task: "+(t.co?t.co+" — ":"")+t.pr+" ("+t.ow+")",
+   ...CRITS.map(([k,l])=>l+": "+scores[k]+"/5"),
+   "Strengths: "+($("good").value.trim()||"—"),
+   "To improve: "+($("improve").value.trim()||"—")].join("\n");
+}
+function sendBox(){
+  const txt=summaryText();
+  const wa="https://wa.me/"+OWNER_WHATSAPP+"?text="+encodeURIComponent(txt);
+  show(`Almost done! Tap the button below to send your evaluation via WhatsApp.
+  <a class="btn wa" style="margin-top:10px" href="${wa}" target="_blank" rel="noopener">Send via WhatsApp</a>
+  <button class="btn sec" id="cp">Copy my answers</button>`,"ok");
+  $("cp").onclick=async()=>{try{await navigator.clipboard.writeText(txt);$("cp").textContent="Copied ✓"}catch(e){$("cp").textContent="Couldn't copy"}};
+}
+
+$("send").onclick=async()=>{
+  if(!sel)return show("Please choose a task first.","err");
+  if(CRITS.some(([k])=>!scores[k]))return show("Please rate every criterion.","err");
+  sendBox();
+};
+
+})();
+</script>
+</body>
+</html>
